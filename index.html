@@ -16,7 +16,6 @@
   <!-- Tone.js for elegant, clean UI sounds -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
-  <!-- Tailwind Configuration -->
   <script>
     tailwind.config = {
       theme: {
@@ -57,6 +56,7 @@
       overflow-y: scroll;
       height: 100vh;
       -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
     }
     .snap-slide {
       scroll-snap-align: start;
@@ -82,28 +82,31 @@
       stroke-dashoffset: 1000;
       animation: heartbeat 4s linear infinite;
     }
-    /* Wave animation */
-    @keyframes wave {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+    /* Q&A Accordion transition */
+    .qa-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease-out;
     }
-    .wave-char {
-      display: inline-block;
-      animation: wave 1.5s ease-in-out infinite;
+    .qa-answer.open {
+      grid-template-rows: 1fr;
+    }
+    .qa-answer > div {
+      overflow: hidden;
     }
   </style>
 </head>
 <body class="bg-gray-900 flex items-center justify-center font-sans antialiased select-none overflow-hidden">
 
-  <!-- Mobile-first container replicating a 1080x1920 viewport with clean framing on desktop -->
+  <!-- Mobile-first container replicating a 1080x1920 viewport -->
   <div class="relative w-full max-w-[480px] h-[100vh] bg-organicMint shadow-2xl overflow-hidden flex flex-col border-x border-gray-100">
     
     <!-- Top Progress Bar (Indicator of active slide) -->
     <div class="absolute top-0 left-0 right-0 h-1.5 bg-green-100 z-50 flex">
-      <div id="progressBar" class="h-full bg-accentMint transition-all duration-300 ease-out" style="width: 12.5%;"></div>
+      <div id="progressBar" class="h-full bg-accentMint transition-all duration-300 ease-out" style="width: 11.11%;"></div>
     </div>
 
-    <!-- Interactive Navigation Arrows (Left/Right overlay for quick switching) -->
+    <!-- Interactive Navigation Arrows -->
     <div class="absolute bottom-4 right-4 z-50 flex gap-2">
       <button onclick="scrollToPrev()" class="w-10 h-10 rounded-full bg-white/80 backdrop-blur shadow flex items-center justify-center hover:bg-white active:scale-95 transition">
         <svg class="w-5 h-5 text-darkText" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -120,7 +123,7 @@
     <!-- Top floating hint indicator -->
     <div class="absolute top-4 left-6 z-40 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm text-xs text-emerald-800 font-bold border border-emerald-100 animate-float flex items-center gap-1">
       <span class="inline-block w-2 h-2 rounded-full bg-accentMint animate-ping"></span>
-      <span id="slideIndicator">Slide 1 / 8</span>
+      <span id="slideIndicator">Slide 1 / 9</span>
     </div>
 
     <!-- Background Sound Toggle Button -->
@@ -134,7 +137,6 @@
 
       <!-- Slide 1: Intro -->
       <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative overflow-hidden">
-        <!-- Floating DNA SVG Background Asset -->
         <div class="absolute -right-16 top-24 opacity-20 pointer-events-none animate-spin-slow">
           <svg width="240" height="240" viewBox="0 0 100 100" class="text-emerald-500 fill-none stroke-current" stroke-width="1.5">
             <circle cx="50" cy="50" r="40" stroke-dasharray="4 4" />
@@ -154,17 +156,12 @@
           </h1>
         </div>
 
-        <!-- 3D DNA Line Art Showcase Container -->
         <div class="my-6 flex justify-center items-center relative h-56 bg-white/40 border border-white/60 rounded-3xl shadow-inner overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-tr from-emerald-50/50 to-transparent"></div>
-          
           <svg class="w-48 h-48 text-emerald-600 drop-shadow-lg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g class="animate-spin-slow" style="transform-origin: 100px 100px;">
-              <!-- Outer Helix Node Connectors and orbits -->
               <ellipse cx="100" cy="100" rx="80" ry="30" stroke="#2ECC71" stroke-width="2" stroke-dasharray="6 6" transform="rotate(30 100 100)"/>
               <ellipse cx="100" cy="100" rx="80" ry="30" stroke="#1DB954" stroke-width="2" stroke-dasharray="6 6" transform="rotate(-30 100 100)"/>
-              
-              <!-- Dynamic Floating Cells & DNA elements -->
               <circle cx="40" cy="65" r="8" fill="#FF7675" />
               <circle cx="160" cy="135" r="8" fill="#FF7675" />
               <circle cx="50" cy="140" r="10" fill="#2ECC71" />
@@ -172,7 +169,6 @@
               <line x1="40" y1="65" x2="160" y2="135" stroke="#2C3E50" stroke-width="1.5" stroke-opacity="0.3" />
               <line x1="50" y1="140" x2="150" y2="60" stroke="#2C3E50" stroke-width="1.5" stroke-opacity="0.3" />
             </g>
-            <!-- Center Core glowing nucleolus -->
             <circle cx="100" cy="100" r="22" fill="#1DB954" class="animate-pulse" />
             <circle cx="100" cy="100" r="14" fill="#F2FAF6" />
             <circle cx="100" cy="100" r="6" fill="#FF7675" />
@@ -197,135 +193,132 @@
         </div>
       </section>
 
-      <!-- Slide 2: Always-on Defense -->
+      <!-- Slide 2: Unit 1. 생명 시스템의 구성 (교육과정 반영) -->
       <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative">
         <div>
           <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1.5 rounded-full mb-3 shadow-sm">
-            핵심 단원 ① 항상성과 몸의 조절
+            핵심 단원 ① 생명 시스템의 구성
           </span>
           <h2 class="text-3xl font-gothic text-darkText leading-tight mt-1">
-            내 몸을 지키는<br>
-            <span class="text-brandGreen">철벽 방어 시스템🛡️</span>
+            세포부터 생태계까지,<br>
+            <span class="text-brandGreen">완벽하게 연결된 유니버스🌌</span>
           </h2>
         </div>
 
-        <!-- Pulse EKG Graph Line Art Canvas -->
+        <div class="my-4 p-4 bg-white/50 border border-white/80 rounded-3xl shadow-inner flex items-center justify-center h-48 relative overflow-hidden">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-40 h-40 rounded-full border-[3px] border-dashed border-emerald-400/60 animate-spin-slow"></div>
+            <div class="absolute w-24 h-24 rounded-full border border-emerald-300/40 animate-[spin_8s_linear_infinite_reverse]"></div>
+          </div>
+          <div class="z-10 bg-white/95 p-4 rounded-2xl border border-emerald-100 shadow-lg text-center max-w-[200px] relative">
+            <div class="absolute -top-3 -right-3 w-8 h-8 bg-pointOrange rounded-full flex items-center justify-center text-white text-[10px] font-black animate-bounce shadow-md">ATP</div>
+            <span class="text-3xl block mb-1">🔬🌿</span>
+            <div class="text-[12px] font-black text-darkText mt-1">물질대사 & 기관계 협동</div>
+            <div class="text-[9px] text-gray-500 font-medium mt-1 leading-tight">소화·순환·호흡이 만드는 에너지, 그리고 거대한 생태계의 물질 순환!</div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <p class="text-[14px] text-gray-700 leading-relaxed mb-4 bg-white/70 p-4 rounded-2xl border border-emerald-50 shadow-sm">
+            우리 몸을 구성하는 <span class="font-bold text-darkText">세포</span>에서 생명 활동 에너지(ATP)가 만들어지는 물질대사 과정부터 소화·순환·호흡 등 <span class="font-bold text-emerald-700">기관계의 엄청난 팀워크</span>를 배워! 게다가 이 모든 생물이 <span class="font-bold text-darkText">환경과 상호작용하는 거대한 생태계의 룰</span>까지 파헤쳐 볼 거야.
+          </p>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#세포부터_지구까지</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#인체_협동조합</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#대사성질환_예방</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Unit 2. 항상성과 몸의 조절 (교육과정 반영) -->
+      <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative">
+        <div>
+          <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1.5 rounded-full mb-3 shadow-sm">
+            핵심 단원 ② 항상성과 몸의 조절
+          </span>
+          <h2 class="text-3xl font-gothic text-darkText leading-tight mt-1">
+            내 몸을 지키는<br>
+            <span class="text-emerald-700">24시간 철벽 방어 시스템🛡️</span>
+          </h2>
+        </div>
+
         <div class="my-4 p-4 bg-white/50 border border-white/80 rounded-3xl shadow-inner relative flex flex-col justify-center h-48 overflow-hidden">
           <div class="absolute top-3 left-3 flex gap-1.5">
             <span class="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse"></span>
-            <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">System Live: 120 BPM</span>
+            <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">Homeostasis: ACTIVE</span>
           </div>
           
-          <svg class="w-full h-24" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-full h-24 mt-2" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path class="heart-wave" d="M 0,50 L 50,50 L 70,50 L 80,15 L 95,85 L 105,50 L 130,50 L 140,50 L 150,15 L 165,85 L 175,50 L 220,50 L 230,20 L 240,75 L 245,50 L 300,50" stroke="#FF7675" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M 0,50 L 300,50" stroke="#1DB954" stroke-opacity="0.15" stroke-width="2" />
           </svg>
 
-          <div class="mt-2 text-center text-xs text-emerald-800 font-bold bg-emerald-50 py-1 rounded-lg">
-            ⚡ 신경계 & 호르몬 듀오가 24시간 실시간 조율 중!
+          <div class="mt-1 text-center text-xs text-emerald-800 font-bold bg-emerald-50 py-1.5 px-2 rounded-lg border border-emerald-100 shadow-sm mx-auto flex items-center gap-1">
+            <span>⚡</span> 뉴런 네트워크 & 호르몬 실시간 조율 중!
           </div>
         </div>
 
         <div class="mb-4">
           <p class="text-[14px] text-gray-700 leading-relaxed mb-4 bg-white/70 p-4 rounded-2xl border border-emerald-50 shadow-sm">
-            시험 공부하느라 밤새고 메가커피 들이부어도 심장이 알아서 정상적으로 뛰고 체온이 기가 막히게 유지되는 이유! 
-            다 <span class="font-bold text-darkText">신경계와 호르몬</span>이 뒤에서 보이지 않게 밤샘 근무해 주는 덕분이야. 내 몸의 똑똑한 방어 기작을 설계해보자!
+            아무리 매운 마라탕을 먹고 추운 곳에 있어도 체온과 혈당이 기가 막히게 유지되는 이유! 
+            다 <span class="font-bold text-darkText">신경계와 내분비계(호르몬)</span>가 보이지 않게 밤샘 근무해 주는 덕분이야. 병원체와 싸우는 <span class="font-bold text-emerald-700">면역 체계와 백신의 원리</span>까지 알아볼까?
           </p>
 
           <div class="flex flex-wrap gap-1.5">
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#내몸의_AI_시스템</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#면역체계_타워디펜스</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#생존필수템</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#내몸의_AI_뉴런</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#항상성_컨트롤</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#백신과_면역방어선</span>
           </div>
         </div>
       </section>
 
-      <!-- Slide 3: Continuity & Diversity -->
+      <!-- Slide 4: Unit 3. 생명의 연속성과 다양성 (교육과정 반영) -->
       <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative">
         <div>
           <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1.5 rounded-full mb-3 shadow-sm">
-            핵심 단원 ② 생명의 연속성과 다양성
+            핵심 단원 ③ 생명의 연속성과 다양성
           </span>
           <h2 class="text-3xl font-gothic text-darkText leading-tight mt-1">
-            너와 나, 그리고<br>
-            <span class="text-emerald-700">지구의 탄생 스토리🧬</span>
+            DNA의 비밀과<br>
+            <span class="text-emerald-700">진화 서바이벌 스토리🧬</span>
           </h2>
         </div>
 
-        <!-- Custom Line Art: Parent-Child DNA Mapping concept -->
         <div class="my-4 p-4 bg-white/50 border border-white/80 rounded-3xl shadow-inner flex items-center justify-around h-48 relative">
-          <!-- Parent Profile Icon SVG -->
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-100 to-emerald-200 flex items-center justify-center border border-white shadow-sm">
-              <span class="text-2xl">👨‍👩‍👦</span>
+          <!-- DNA / Chromosome -->
+          <div class="flex flex-col items-center text-center z-10">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-100 to-emerald-200 flex items-center justify-center border border-white shadow-sm">
+              <span class="text-2xl">🧬</span>
             </div>
-            <span class="text-[10px] font-bold text-gray-600 mt-2">부모 유전</span>
+            <span class="text-[9px] font-bold text-gray-600 mt-2">유전자 전달</span>
           </div>
-          <!-- DNA Connecting Arrow -->
-          <div class="flex flex-col items-center animate-pulse">
-            <svg class="w-14 h-8 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <!-- Arrow with Tree of Life icon -->
+          <div class="flex flex-col items-center animate-pulse z-0">
+            <svg class="w-12 h-6 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-            <span class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">DNA 전달</span>
+            <span class="text-[8px] bg-emerald-100 text-emerald-800 px-1 py-0.5 rounded font-bold mt-1">자연 선택</span>
           </div>
-          <!-- Child Profile Concept -->
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-yellow-100 to-amber-200 flex items-center justify-center border border-white shadow-sm animate-bounce-slow">
-              <span class="text-2xl">✨🧬</span>
+          <!-- Taxonomy / Phylogeny -->
+          <div class="flex flex-col items-center text-center z-10">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-yellow-100 to-amber-200 flex items-center justify-center border border-white shadow-sm animate-bounce-slow">
+              <span class="text-2xl">🌳</span>
             </div>
-            <span class="text-[10px] font-bold text-gray-600 mt-2">나의 고유성</span>
+            <span class="text-[9px] font-bold text-gray-600 mt-2">생물 계통수</span>
           </div>
         </div>
 
         <div class="mb-4">
           <p class="text-[14px] text-gray-700 leading-relaxed mb-4 bg-white/70 p-4 rounded-2xl border border-emerald-50 shadow-sm">
-            "내가 왜 엄빠를 닮았지?" 신비로운 <span class="font-bold text-darkText">DNA 상속의 가계도 비밀</span>을 흥미진진하게 풀어봐! 
-            더불어 환경에 따라 변신과 적응을 거듭하며 멸종을 슬기롭게 피해 살아남은 생물들의 스릴 넘치는 <span class="font-bold text-emerald-700">진화 서바이벌 스토리</span>까지 단번에 디코딩해줄게.
+            내가 왜 엄빠를 닮았지? <span class="font-bold text-darkText">염색체와 유전자</span>에 새겨진 생식세포의 신비! 
+            그리고 긴 시간 동안 환경에 적응하며 살아남은 <span class="font-bold text-emerald-700">진화의 원리</span>와 수많은 생물들의 유연관계를 따져보는 흥미진진한 생물 분류(계통수)까지 정복해보자!
           </p>
 
           <div class="flex flex-wrap gap-1.5">
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#DNA_비밀번호</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#가계도_추리게임</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#자연선택_서바이벌</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 4: Bio System & Ecology -->
-      <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative">
-        <div>
-          <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1.5 rounded-full mb-3 shadow-sm">
-            핵심 단원 ③ 생명 시스템과 생태계
-          </span>
-          <h2 class="text-3xl font-gothic text-darkText leading-tight mt-1">
-            따로 또 같이,<br>
-            <span class="text-emerald-700">지구에서 공존하는 법🌍</span>
-          </h2>
-        </div>
-
-        <!-- Ecosystem & Organ Interactive Circle Graph -->
-        <div class="my-4 p-4 bg-white/50 border border-white/80 rounded-3xl shadow-inner flex items-center justify-center h-48 relative">
-          <div class="absolute inset-0 flex items-center justify-center">
-            <!-- Pulsing outer circle representing globe / system -->
-            <div class="w-36 h-36 rounded-full border-4 border-dashed border-emerald-300 animate-spin-slow"></div>
-          </div>
-          <div class="z-10 bg-white/90 p-4 rounded-2xl border border-emerald-100 shadow-lg text-center max-w-[180px]">
-            <span class="text-3xl">🌿</span>
-            <div class="text-[12px] font-black text-darkText mt-1">인체 & 생태계</div>
-            <div class="text-[9px] text-gray-500 font-medium">유기적으로 연결된 완벽한 밸런스의 규칙</div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <p class="text-[14px] text-gray-700 leading-relaxed mb-4 bg-white/70 p-4 rounded-2xl border border-emerald-50 shadow-sm">
-            소화, 순환, 호흡, 배설 기관계가 우리 몸속에서 어떻게 최고의 팀워크로 협력하는지 알아? 
-            더 나아가 지구 생태계 속 생물들이 <span class="font-bold text-emerald-700">환경과 상호작용하며 균형을 맞춰나가는 놀랍고 숭고한 질서</span>를 배우게 될 거야!
-          </p>
-
-          <div class="flex flex-wrap gap-1.5">
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#인체_협동조합</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#생태감수성</span>
-            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#지구보호구역</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#유전의_비밀번호</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#진화와_자연선택</span>
+            <span class="text-xs bg-white text-emerald-700 font-semibold border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">#생물_호적파기</span>
           </div>
         </div>
       </section>
@@ -343,9 +336,7 @@
           <p class="text-[11px] text-gray-500 mt-1">각 분야를 탭(Tab)하여 생명과학의 융합 포인트를 알아보세요!</p>
         </div>
 
-        <!-- Dynamic Mind Map Display -->
         <div class="my-3 space-y-2">
-          <!-- IT / Computational node -->
           <div onclick="showCareerDesc('it')" class="career-node bg-white p-3 rounded-2xl border-2 border-emerald-100 hover:border-accentMint cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span class="text-2xl">💻</span>
@@ -356,8 +347,6 @@
             </div>
             <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">TAP</span>
           </div>
-
-          <!-- Environment / Energy node -->
           <div onclick="showCareerDesc('env')" class="career-node bg-white p-3 rounded-2xl border-2 border-emerald-100 hover:border-accentMint cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🌿</span>
@@ -368,8 +357,6 @@
             </div>
             <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">TAP</span>
           </div>
-
-          <!-- Art / Design node -->
           <div onclick="showCareerDesc('art')" class="career-node bg-white p-3 rounded-2xl border-2 border-emerald-100 hover:border-accentMint cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🎨</span>
@@ -380,8 +367,6 @@
             </div>
             <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">TAP</span>
           </div>
-
-          <!-- Law / Humanities node -->
           <div onclick="showCareerDesc('law')" class="career-node bg-white p-3 rounded-2xl border-2 border-emerald-100 hover:border-accentMint cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span class="text-2xl">⚖️</span>
@@ -394,7 +379,6 @@
           </div>
         </div>
 
-        <!-- Responsive Card to Show Tap Details with sound feedback -->
         <div id="careerDetailsBox" class="p-3 bg-emerald-900 text-white rounded-2xl text-[12px] leading-relaxed transition-all duration-300 min-h-[64px] flex items-center justify-center">
           💡 각 분야를 누르면 현진쌤의 진로 꿀팁 가이드가 열려요!
         </div>
@@ -412,10 +396,7 @@
           </h2>
         </div>
 
-        <!-- Roadmap Visual representation -->
         <div class="my-4 space-y-3 relative pl-4 border-l-2 border-dashed border-emerald-300">
-          
-          <!-- Step 1: 2nd Grade foundation & choice -->
           <div class="relative bg-white p-3.5 rounded-2xl shadow-sm border border-emerald-100">
             <span class="absolute -left-[25px] top-4 w-4 h-4 rounded-full bg-accentMint border-2 border-white flex items-center justify-center"></span>
             <span class="text-[10px] font-bold text-accentMint tracking-wider uppercase block">2학년 (기본 다지기 & 진로 선택)</span>
@@ -424,35 +405,23 @@
               1학기에 필수 기초인 <b>[생명과학Ⅰ]</b>을 튼튼히 배우고, 2학기에는 더욱 심화된 세포 중심의 <b>[세포와 물질대사]</b>를 매끄럽게 이어서 완성해 봐!
             </p>
           </div>
-
-          <!-- Down Arrow visual element -->
           <div class="text-center text-emerald-400 py-1">
-            <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-            </svg>
+            <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" /></svg>
           </div>
-
-          <!-- Step 2: 3rd Grade pathways -->
           <div class="relative bg-emerald-50 p-3.5 rounded-2xl shadow-sm border border-emerald-200">
             <span class="absolute -left-[25px] top-4 w-4 h-4 rounded-full bg-emerald-700 border-2 border-white flex items-center justify-center"></span>
             <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase block">3학년 (내 진로 맞춤 특화 선택)</span>
-            
             <div class="mt-2 space-y-2">
               <div class="bg-white p-2.5 rounded-xl border border-emerald-100">
                 <h4 class="text-xs font-extrabold text-emerald-900">🧬 유전과 생명공학에 몰두하고 싶다면?</h4>
                 <p class="text-[10px] text-gray-700 mt-0.5 font-medium">➡️ <span class="text-emerald-700 font-bold">[생물의 유전]</span></p>
               </div>
               <div class="bg-white p-2.5 rounded-xl border border-emerald-100">
-                <h4 class="text-xs font-extrabold text-emerald-900">🌍 실험과 환경 복원에 도전하고 싶다면?</h4>
+                <h4 class="text-xs font-extrabold text-emerald-900">🌍 실험과 환경 복원에 도전?</h4>
                 <p class="text-[10px] text-gray-700 mt-0.5 font-medium">➡️ <span class="text-emerald-700 font-bold">[기후변화와 환경생태]</span>, <span class="text-emerald-700 font-bold">[융합과학 탐구]</span></p>
               </div>
             </div>
           </div>
-
-        </div>
-
-        <div class="bg-white/80 p-3 rounded-2xl border border-emerald-100 text-[12px] text-emerald-800 font-semibold text-center">
-          💡 2학년 베이스가 잘 잡혀야 3학년 심화과정이 꿀잼이 된다구!
         </div>
       </section>
 
@@ -466,64 +435,141 @@
             재미로 보는 나의<br>
             <span class="text-emerald-700">수강 유전자🧬 TEST</span>
           </h2>
-          <p class="text-[11px] text-gray-500">당신의 호기심 유전자를 체크해 보세요! (중복 선택 가능)</p>
+          <p class="text-[11px] text-gray-500 mt-1">당신의 호기심 유전자를 체크해 보세요! (중복 선택 가능)</p>
         </div>
 
-        <!-- Custom styled interactive checklists with sound feedback -->
         <div class="space-y-2 my-2">
-          
-          <label onclick="clickSound()" class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
-            <input type="checkbox" value="1" onchange="calculateScore()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
-            <span class="text-xs text-darkText font-medium leading-relaxed">
-              🎬 SF 영화 속 유전자 조작이나 복제 인간 스토리에 깊은 흥미를 느낀 적이 있다.
-            </span>
+          <!-- Item 1 -->
+          <label class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
+            <input type="checkbox" onclick="clickSound()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
+            <span class="text-xs text-darkText font-medium leading-relaxed">🎬 SF 영화 속 유전자 조작이나 복제 인간 스토리에 깊은 흥미를 느낀 적이 있다.</span>
           </label>
-
-          <label onclick="clickSound()" class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
-            <input type="checkbox" value="1" onchange="calculateScore()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
-            <span class="text-xs text-darkText font-medium leading-relaxed">
-              ⌚ 스마트 워치로 내 실시간 심박수, 수면 패턴 측정 데이터를 보는 게 재미있다.
-            </span>
+          <!-- Item 2 -->
+          <label class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
+            <input type="checkbox" onclick="clickSound()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
+            <span class="text-xs text-darkText font-medium leading-relaxed">⌚ 스마트 워치로 내 실시간 심박수, 수면 패턴 측정 데이터를 보는 게 재미있다.</span>
           </label>
-
-          <label onclick="clickSound()" class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
-            <input type="checkbox" value="1" onchange="calculateScore()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
-            <span class="text-xs text-darkText font-medium leading-relaxed">
-              🦠 유행하는 전염병 백신 원리나 새로운 질병 뉴스가 나오면 주의 깊게 눈길이 간다.
-            </span>
+          <!-- Item 3 -->
+          <label class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
+            <input type="checkbox" onclick="clickSound()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
+            <span class="text-xs text-darkText font-medium leading-relaxed">🦠 유행하는 전염병 백신 원리나 새로운 질병 뉴스가 나오면 주의 깊게 눈길이 간다.</span>
           </label>
-
-          <label onclick="clickSound()" class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
-            <input type="checkbox" value="1" onchange="calculateScore()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
-            <span class="text-xs text-darkText font-medium leading-relaxed">
-              🔍 과학수사 극에서 DNA 지문 감정으로 결정적 범인을 색출해내는 기술이 신기했다.
-            </span>
+          <!-- Item 4 -->
+          <label class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
+            <input type="checkbox" onclick="clickSound()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
+            <span class="text-xs text-darkText font-medium leading-relaxed">🔍 과학수사 극에서 DNA 지문 감정으로 결정적 범인을 색출해내는 기술이 신기했다.</span>
           </label>
-
-          <label onclick="clickSound()" class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
-            <input type="checkbox" value="1" onchange="calculateScore()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
-            <span class="text-xs text-darkText font-medium leading-relaxed">
-              🌍 기후 위기 극단 날씨 뉴스에 "지구가 많이 아프구나" 진심 어린 지구 공감을 한다.
-            </span>
+          <!-- Item 5 -->
+          <label class="flex items-start gap-3 bg-white p-3 rounded-2xl border border-emerald-100 hover:border-accentMint cursor-pointer shadow-sm transition">
+            <input type="checkbox" onclick="clickSound()" class="quiz-check w-5 h-5 rounded border-emerald-300 text-accentMint focus:ring-accentMint mt-0.5 transition">
+            <span class="text-xs text-darkText font-medium leading-relaxed">🌍 기후 위기 극단 날씨 뉴스에 "지구가 많이 아프구나" 진심 어린 지구 공감을 한다.</span>
           </label>
-
         </div>
 
-        <!-- Live Score Display Feedback -->
-        <div class="bg-gradient-to-tr from-emerald-800 to-emerald-950 p-4 rounded-2xl text-white shadow-md">
-          <div class="flex items-center justify-between border-b border-emerald-700/60 pb-2 mb-2">
-            <span class="text-[10px] uppercase font-black tracking-widest text-emerald-300">Test Result</span>
-            <span id="scoreCounter" class="text-xs font-bold bg-emerald-700 px-2 py-0.5 rounded-full">해당 항목: 0개</span>
-          </div>
-          <div id="testConclusion" class="text-xs leading-relaxed font-semibold text-emerald-100">
-            문항을 클릭해서 당신 안의 생명과학 호기심 DNA 수치를 바로 진단해 보세요!
-          </div>
+        <!-- Result Button Only -->
+        <div class="mt-2 mb-4">
+          <button onclick="showTestResultModal()" class="w-full bg-emerald-500 text-white font-bold text-[13px] py-3.5 rounded-xl hover:bg-emerald-400 active:scale-95 transition shadow-sm border border-emerald-400 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+            내 호기심 DNA 상세 결과 보기
+          </button>
         </div>
       </section>
 
-      <!-- Slide 8: Outro & Contact Banner -->
+      <!-- Slide 8: Q&A Section -->
+      <section class="snap-slide bg-organicMint px-5 pt-12 pb-16 flex flex-col justify-center relative overflow-hidden">
+        <div class="shrink-0 mb-4">
+          <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1.5 rounded-full mb-2 shadow-sm">
+            Q&A
+          </span>
+          <h2 class="text-2xl font-gothic text-darkText leading-tight mt-1">
+            궁금증 해결!<br>
+            <span class="text-brandGreen">자주 묻는 질문 💡</span>
+          </h2>
+        </div>
+
+        <!-- Q&A List Container (Compact to fit 5 items without scrolling) -->
+        <div class="space-y-2 w-full flex flex-col">
+          
+          <!-- 질문 1 -->
+          <div class="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden">
+            <button onclick="toggleQA(1)" class="w-full text-left px-4 py-3 flex justify-between items-center bg-emerald-50/30 hover:bg-emerald-50 transition active:scale-[0.99]">
+              <span class="text-[12px] font-bold text-emerald-900 pr-2">Q1. 질문1 (여기를 클릭해서 수정)</span>
+              <svg id="qa-icon-1" class="w-4 h-4 text-emerald-600 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="qa-ans-1" class="qa-answer">
+              <div>
+                <div class="px-4 py-2.5 text-[11px] text-gray-700 border-t border-emerald-50 leading-relaxed bg-white">
+                  A1. 답변1 내용을 이곳에 입력해 주세요. (여기를 수정)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 질문 2 -->
+          <div class="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden">
+            <button onclick="toggleQA(2)" class="w-full text-left px-4 py-3 flex justify-between items-center bg-emerald-50/30 hover:bg-emerald-50 transition active:scale-[0.99]">
+              <span class="text-[12px] font-bold text-emerald-900 pr-2">Q2. 질문2 (여기를 클릭해서 수정)</span>
+              <svg id="qa-icon-2" class="w-4 h-4 text-emerald-600 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="qa-ans-2" class="qa-answer">
+              <div>
+                <div class="px-4 py-2.5 text-[11px] text-gray-700 border-t border-emerald-50 leading-relaxed bg-white">
+                  A2. 답변2 내용을 이곳에 입력해 주세요. (여기를 수정)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 질문 3 -->
+          <div class="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden">
+            <button onclick="toggleQA(3)" class="w-full text-left px-4 py-3 flex justify-between items-center bg-emerald-50/30 hover:bg-emerald-50 transition active:scale-[0.99]">
+              <span class="text-[12px] font-bold text-emerald-900 pr-2">Q3. 질문3 (여기를 클릭해서 수정)</span>
+              <svg id="qa-icon-3" class="w-4 h-4 text-emerald-600 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="qa-ans-3" class="qa-answer">
+              <div>
+                <div class="px-4 py-2.5 text-[11px] text-gray-700 border-t border-emerald-50 leading-relaxed bg-white">
+                  A3. 답변3 내용을 이곳에 입력해 주세요. (여기를 수정)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 질문 4 -->
+          <div class="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden">
+            <button onclick="toggleQA(4)" class="w-full text-left px-4 py-3 flex justify-between items-center bg-emerald-50/30 hover:bg-emerald-50 transition active:scale-[0.99]">
+              <span class="text-[12px] font-bold text-emerald-900 pr-2">Q4. 질문4 (여기를 클릭해서 수정)</span>
+              <svg id="qa-icon-4" class="w-4 h-4 text-emerald-600 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="qa-ans-4" class="qa-answer">
+              <div>
+                <div class="px-4 py-2.5 text-[11px] text-gray-700 border-t border-emerald-50 leading-relaxed bg-white">
+                  A4. 답변4 내용을 이곳에 입력해 주세요. (여기를 수정)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 질문 5 -->
+          <div class="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden">
+            <button onclick="toggleQA(5)" class="w-full text-left px-4 py-3 flex justify-between items-center bg-emerald-50/30 hover:bg-emerald-50 transition active:scale-[0.99]">
+              <span class="text-[12px] font-bold text-emerald-900 pr-2">Q5. 질문5 (여기를 클릭해서 수정)</span>
+              <svg id="qa-icon-5" class="w-4 h-4 text-emerald-600 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="qa-ans-5" class="qa-answer">
+              <div>
+                <div class="px-4 py-2.5 text-[11px] text-gray-700 border-t border-emerald-50 leading-relaxed bg-white">
+                  A5. 답변5 내용을 이곳에 입력해 주세요. (여기를 수정)
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Slide 9: Outro & Contact Banner -->
       <section class="snap-slide bg-organicMint px-6 pt-16 pb-20 flex flex-col justify-between relative">
-        <!-- Background organic shapes -->
         <div class="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-emerald-100 opacity-40 blur-xl pointer-events-none"></div>
 
         <div>
@@ -531,7 +577,6 @@
             아웃트로 & 상담 환영
           </span>
           
-          <!-- Cute Teacher avatar constructed cleanly in HTML/CSS -->
           <div class="flex items-center gap-4 mt-2">
             <div class="relative">
               <div class="w-16 h-16 rounded-full bg-emerald-200 border-2 border-white shadow-md flex items-center justify-center text-3xl">
@@ -546,188 +591,205 @@
           </div>
         </div>
 
-        <div class="my-6">
+        <div class="my-6 z-10">
           <div class="bg-emerald-800 rounded-3xl p-5 shadow-xl text-center text-white relative overflow-hidden">
-            <!-- Neon banner pulse elements -->
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-green-400"></div>
-            
             <h3 class="text-lg font-black tracking-tight mb-2">생과 수강신청은 사랑입니다...💖</h3>
             <p class="text-xs text-emerald-100 leading-relaxed font-medium mb-3">
               우리 인생 최고의 유쾌한 우주를 함께 탐험해볼래? 망설이지 말고 수강 바구니에 생과를 담아보자!
             </p>
-            
             <button onclick="playSuccessSfx()" class="w-full bg-white text-emerald-800 font-black text-xs py-3 rounded-xl shadow-lg active:scale-95 transition-all duration-150">
               👉 생과 우등 버스 탑승 신청하기!
             </button>
           </div>
         </div>
 
-        <!-- Teacher's Signatures and hashtag banner elements -->
-        <div class="space-y-1.5">
+        <!-- Teacher's Signatures -->
+        <div class="space-y-2 z-10">
           <div class="bg-emerald-100/60 text-center py-2 px-3 rounded-xl border border-emerald-100 flex items-center justify-center gap-2">
             <span class="text-xs font-black text-emerald-900">🧬 #초미녀현진쌤</span>
           </div>
           <div class="bg-white/80 text-center py-2 px-3 rounded-xl border border-emerald-100 flex items-center justify-center gap-2 shadow-sm">
-            <span class="text-xs font-black text-gray-700">📍 #3층_별관_융합과학부_교무실</span>
+            <span class="text-xs font-black text-emerald-900">✨ #생명과학_수강신청고고</span>
           </div>
         </div>
       </section>
 
     </div>
+
+    <!-- Custom Modal Overlay (Pop-up) -->
+    <div id="customModal" class="absolute inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-6">
+      <div class="bg-white rounded-3xl p-6 shadow-2xl max-w-xs w-full transform scale-95 transition-all duration-300 relative flex flex-col items-center">
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 active:scale-90 transition p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div id="modalEmoji" class="text-5xl text-center mb-4 mt-2">🎉</div>
+        <h3 id="modalTitle" class="text-xl font-gothic text-emerald-900 text-center mb-2">타이틀</h3>
+        <p id="modalMessage" class="text-[13px] text-gray-600 text-center leading-relaxed font-medium mb-6">메시지 내용</p>
+        <button onclick="closeModal()" class="w-full bg-emerald-500 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-400 active:scale-95 transition shadow-md text-[13px]">
+          확인
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // Audio State Init using standard Tone.js Synths (Completely safe & local)
-    let isAudioEnabled = false;
-    let synth = null;
-    let melodySynth = null;
+    // --- Scroll & Navigation Logic ---
+    const snapContainer = document.getElementById('snapContainer');
+    const progressBar = document.getElementById('progressBar');
+    const slideIndicator = document.getElementById('slideIndicator');
+    const totalSlides = 9;
 
-    function initAudio() {
-      if (!synth) {
-        // Clean feedback synth
-        synth = new Tone.Synth({
-          oscillator: { type: "sine" },
-          envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 }
-        }).toDestination();
-        
-        // Joyful melody synth for success
-        melodySynth = new Tone.PolySynth(Tone.Synth, {
-          oscillator: { type: "triangle" },
-          envelope: { attack: 0.05, decay: 0.2, sustain: 0.2, release: 0.2 }
-        }).toDestination();
-      }
+    snapContainer.addEventListener('scroll', () => {
+      const slideHeight = window.innerHeight;
+      const currentIndex = Math.round(snapContainer.scrollTop / slideHeight);
+      
+      slideIndicator.innerText = `Slide ${currentIndex + 1} / ${totalSlides}`;
+      const progressPercent = ((currentIndex + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+    });
+
+    function scrollToNext() {
+      clickSound();
+      snapContainer.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
     }
 
-    function toggleAudioInit() {
-      if (!isAudioEnabled) {
-        Tone.start();
-        initAudio();
-        isAudioEnabled = true;
+    function scrollToPrev() {
+      clickSound();
+      snapContainer.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+    }
+
+    // --- Audio (Tone.js) Logic ---
+    let synth;
+    let isAudioOn = false;
+
+    async function toggleAudioInit() {
+      if (!isAudioOn) {
+        await Tone.start();
+        synth = new Tone.PolySynth(Tone.Synth).toDestination();
+        synth.volume.value = -12;
+        isAudioOn = true;
+        
         document.getElementById('soundOnIcon').classList.remove('hidden');
         document.getElementById('soundOffIcon').classList.add('hidden');
-        // Play welcome trigger
-        if(synth) synth.triggerAttackRelease("C5", "8n");
+        synth.triggerAttackRelease(["C5", "E5"], "8n");
       } else {
-        isAudioEnabled = false;
+        isAudioOn = false;
         document.getElementById('soundOnIcon').classList.add('hidden');
         document.getElementById('soundOffIcon').classList.remove('hidden');
       }
     }
 
-    function playSound(freq, duration) {
-      if (isAudioEnabled && synth) {
-        synth.triggerAttackRelease(freq, duration || "16n");
-      }
-    }
-
-    // Touch and Click Sound Effects
     function clickSound() {
-      playSound("E5", "16n");
+      if (isAudioOn && synth) {
+        synth.triggerAttackRelease("C6", "32n");
+      }
     }
 
     function playSuccessSfx() {
-      if (isAudioEnabled && melodySynth) {
+      if (isAudioOn && synth) {
         const now = Tone.now();
-        melodySynth.triggerAttackRelease("C5", "8n", now);
-        melodySynth.triggerAttackRelease("E5", "8n", now + 0.08);
-        melodySynth.triggerAttackRelease("G5", "8n", now + 0.16);
-        melodySynth.triggerAttackRelease("C6", "4n", now + 0.24);
+        synth.triggerAttackRelease("C4", "8n", now);
+        synth.triggerAttackRelease("E4", "8n", now + 0.1);
+        synth.triggerAttackRelease("G4", "8n", now + 0.2);
+        synth.triggerAttackRelease("C5", "4n", now + 0.3);
+      }
+      showModal("🎉", "수강 신청 완료!", "생명과학의 세계로 오신 것을 환영합니다!<br>우리 함께 재밌게 공부해봐요!");
+    }
+
+    // --- Custom Modal Logic ---
+    function showModal(emoji, title, message) {
+      document.getElementById('modalEmoji').innerHTML = emoji;
+      document.getElementById('modalTitle').innerHTML = title;
+      document.getElementById('modalMessage').innerHTML = message;
+
+      const modal = document.getElementById('customModal');
+      const modalInner = modal.querySelector('div');
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+      modalInner.classList.remove('scale-95');
+      modalInner.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      clickSound();
+      const modal = document.getElementById('customModal');
+      const modalInner = modal.querySelector('div');
+
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modalInner.classList.remove('scale-100');
+      modalInner.classList.add('scale-95');
+    }
+
+    function showTestResultModal() {
+      clickSound();
+      const checkboxes = document.querySelectorAll('.quiz-check');
+      let score = 0;
+      checkboxes.forEach(cb => {
+        if (cb.checked) score++;
+      });
+
+      let emoji, title, desc;
+      if (score === 0) {
+        emoji = "🤔"; title = "아직은 탐색 중!"; desc = "생명과학의 재미를 알아가는 중이군요.<br>수업을 들으면 푹 빠지게 될지도 몰라요!";
+      } else if (score <= 2) {
+        emoji = "🌱"; title = "생과 씨앗 단계!"; desc = "생명과학에 조금씩 흥미를 가지고 있네요.<br>일상 속 과학이 재밌어질 거예요.";
+      } else if (score <= 4) {
+        emoji = "🌿"; title = "생과 새싹 단계!"; desc = "오호라! 생과 잠재력이 꽤 높아요.<br>수강하면 아주 재밌게 들을 수 있을 거예요!";
       } else {
-        // Fallback or Alert custom dialog instead of blocking browser alert
-        const dialog = document.createElement('div');
-        dialog.className = "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 border border-emerald-300 shadow-2xl rounded-3xl p-6 text-center z-[100] max-w-xs animate-float";
-        dialog.innerHTML = `
-          <div class="text-3xl mb-2">🎉🧬</div>
-          <h4 class="font-extrabold text-emerald-900 text-sm mb-1">수강신청 하이패스!</h4>
-          <p class="text-xs text-gray-600 mb-4">현진쌤 생과 클래스 탑승권이 정상 발급되었습니다!</p>
-          <button onclick="this.parentElement.remove()" class="bg-emerald-800 text-white font-black text-xs px-6 py-2 rounded-xl hover:bg-emerald-700 transition">확인</button>
-        `;
-        document.body.appendChild(dialog);
+        emoji = "🌳"; title = "생과 나무 단계!"; desc = "당신은 이미 뼛속까지 생명과학 러버!<br>망설이지 말고 무조건 수강 신청 버튼 누르세요!";
       }
+
+      showModal(emoji, title, desc);
     }
 
-    // Slide Scroll Management
-    const container = document.getElementById('snapContainer');
-    const totalSlides = 8;
-    let currentSlide = 1;
-
-    // Listen to snap scrolling events to update UI Indicators dynamically
-    container.addEventListener('scroll', () => {
-      const slideHeight = container.clientHeight;
-      const scrollPosition = container.scrollTop;
-      const calculatedSlide = Math.round(scrollPosition / slideHeight) + 1;
-      
-      if (calculatedSlide !== currentSlide && calculatedSlide >= 1 && calculatedSlide <= totalSlides) {
-        currentSlide = calculatedSlide;
-        updateUIIndicators();
-        playSound("G4", "32n");
-      }
-    });
-
-    function updateUIIndicators() {
-      document.getElementById('slideIndicator').innerText = `Slide ${currentSlide} / ${totalSlides}`;
-      const percentage = (currentSlide / totalSlides) * 100;
-      document.getElementById('progressBar').style.width = `${percentage}%`;
-    }
-
-    function scrollToNext() {
-      if (currentSlide < totalSlides) {
-        container.scrollTo({
-          top: currentSlide * container.clientHeight,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    function scrollToPrev() {
-      if (currentSlide > 1) {
-        container.scrollTo({
-          top: (currentSlide - 2) * container.clientHeight,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    // Slide 5: Career Node Details Interactive Swapper
-    const careerData = {
-      it: "💻 <b>유전자 가위(CRISPR) 기술과 AI 만남:</b> 인공지능 바이오 알고리즘 개발, 유전 질환 정밀 시뮬레이터 프로그램 설계 등 개발자 영역에서 가장 핫한 신대륙입니다!",
-      env: "🌿 <b>지속가능한 지구 설계자:</b> 이산화탄소를 흡수하는 변형 조류를 설계하거나 환경오염을 치료하는 에코 복원 엔지니어링의 핵심 중심점에 생과 지식이 필수적입니다.",
-      art: "🎨 <b>비주얼 바이오 신세계:</b> 신비로운 인체 장기, 수술 과정, 세포 구조를 정밀하게 그리는 메디컬 일러스트 및 바이오 소재 아트 디자인으로 최고의 유일무이한 가치를 만듭니다.",
-      law: "⚖️ <b>미래 기술을 지키는 등대:</b> 인간 복제, 유전자 윤리 규범 전문가 혹은 유전자 편집 신생 벤처들의 첨단 지식재산권을 보호하는 융합 바이오 전문 변리사로 활약합니다!"
+    // --- Slide 5: Career Description Logic ---
+    const careerDescriptions = {
+      'it': "🧬 IT 융합: 코딩과 생물학이 만나는 바이오인포매틱스! 막대한 유전자 데이터를 분석하거나, 질병 예측 AI 모델을 개발하는 최고 유망 직종이야.",
+      'env': "🌍 환경 융합: 기후 위기 시대의 히어로! 미세플라스틱 분해 미생물을 연구하거나, 지속 가능한 바이오 에너지를 개발하며 지구를 살려보자.",
+      'art': "🎨 예술 융합: 과학의 아름다움을 시각화하다! 복잡한 인체 구조나 바이러스 형태를 3D로 디자인하는 메디컬 일러스트레이터가 될 수 있어.",
+      'law': "⚖️ 법학 융합: 생명 윤리와 특허의 수호자! 새로운 신약이나 유전자 가위 기술의 특허를 방어하고 생명 윤리를 정립하는 멋진 변리사가 되어봐."
     };
 
-    function showCareerDesc(key) {
+    function showCareerDesc(id) {
+      clickSound();
       const box = document.getElementById('careerDetailsBox');
-      box.innerHTML = careerData[key];
-      box.className = "p-3 bg-emerald-800 text-white rounded-2xl text-[12px] leading-relaxed transition-all duration-300 min-h-[64px] flex items-center justify-start border border-emerald-500 animate-pulse";
-      setTimeout(() => {
-        box.classList.remove('animate-pulse');
-      }, 500);
-      playSound("C5", "16n");
+      box.innerHTML = careerDescriptions[id] || "💡 각 분야를 누르면 현진쌤의 진로 꿀팁 가이드가 열려요!";
+      
+      box.classList.remove('animate-bounce-slow');
+      void box.offsetWidth;
+      box.classList.add('animate-bounce-slow');
     }
 
-    // Slide 7: Interactive Bio Score Live updates
-    function calculateScore() {
-      const checkedBoxes = document.querySelectorAll('.quiz-check:checked');
-      const count = checkedBoxes.length;
-      const scoreCounter = document.getElementById('scoreCounter');
-      const testConclusion = document.getElementById('testConclusion');
-
-      scoreCounter.innerText = `해당 항목: ${count}개`;
-
-      if (count === 0) {
-        testConclusion.innerHTML = "당신 안의 생명과학 호기심 DNA 수치를 체크해보세요!";
-      } else if (count >= 1 && count <= 2) {
-        testConclusion.innerHTML = "💡 <b>관심도 60% [잠재적 바이오인]:</b> 평소 스마트 라이프나 미스터리 추리에 반응하는 숨겨진 호기심이 자라나고 있네요! 생과를 들으면 흥미가 폭발할 확률이 높습니다.";
-        playSound("E5", "16n");
-      } else if (count >= 3 && count <= 4) {
-        testConclusion.innerHTML = "🧪 <b>관심도 85% [탁월한 탐험가 후보]:</b> 뉴스나 미디어를 흘려듣지 않는 고품격 지성파! 일상과 과학의 강력한 연결고리를 배울 최적의 대상입니다.";
-        playSound("G5", "16n");
-      } else {
-        testConclusion.innerHTML = "🌟 <b>관심도 100% [현진쌤의 소울메이트]:</b> 이미 머리부터 발끝까지 완벽한 생과 DNA가 풀가동 중! 망설일 가치도 없습니다. 무조건 생명과학 선택으로 가자구!";
-        playSuccessSfx();
+    // --- Slide 8: Q&A Toggle Logic ---
+    function toggleQA(id) {
+      clickSound();
+      const answerDiv = document.getElementById(`qa-ans-${id}`);
+      const icon = document.getElementById(`qa-icon-${id}`);
+      const isOpen = answerDiv.classList.contains('open');
+      
+      // Close all others
+      document.querySelectorAll('.qa-answer').forEach(el => el.classList.remove('open'));
+      document.querySelectorAll('[id^="qa-icon-"]').forEach(el => el.classList.remove('rotate-180'));
+      
+      // Open clicked if it was closed
+      if (!isOpen) {
+        answerDiv.classList.add('open');
+        icon.classList.add('rotate-180');
       }
     }
+
+    // Close all when clicking outside
+    document.addEventListener('click', (event) => {
+      const isClickInsideQA = event.target.closest('.qa-answer') || event.target.closest('button[onclick^="toggleQA"]');
+      if (!isClickInsideQA) {
+        document.querySelectorAll('.qa-answer').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('[id^="qa-icon-"]').forEach(el => el.classList.remove('rotate-180'));
+      }
+    });
   </script>
 </body>
 </html>
